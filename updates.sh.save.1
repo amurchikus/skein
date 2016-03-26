@@ -1,0 +1,42 @@
+#!/bin/bash
+
+#Scrip for update DB - Updates
+
+folName='/home/eugen/update_sql';
+#declare -gA arrayUpdates;
+tot="hoha";
+
+function finedVersion(){
+
+origLine=$line;
+line=$(echo $line | sed 's/ \{1,\}//g');
+
+if [ $line == "$(echo $line | grep -Po '^(\d)([0-9])*(.)?(createtable.sql)$')" ]
+	then
+	verNumber=$(echo $line | grep -Po '^([0-9])*');
+	arrayUpdates[$verNumber]=$origLine;
+	fi
+for var in "${arrayUpdates[@]}"
+do
+  echo "${var}"
+  # do something on $var
+done
+}
+
+function executeSql(){
+echo $verNumber;
+echo ${arrayUpdates[1]};
+for i in "${arrayUpdates[@]}"
+do
+   echo $i;
+done
+}
+
+
+tot=$(
+ls $folName | while read line;
+do
+        finedVersion;
+done;`
+echo "ths is ( $tot )";
+ executeSql;
